@@ -3,6 +3,27 @@ set -euo pipefail
 action=${1:?}; service=${2:-}; directory=${3:-}; glob=${4:-'*.log'}; day=${5:-}; pattern=${6:-}; count=${7:-200}; context=${8:-0}; start=${9:-}; end=${10:-}; budget=${11:-16777216}; maxfiles=${12:-20}; maxlines=${13:-2000}
 fail(){ printf 'RESULT QUERY_FAILED reason=%s\n' "$*" >&2; exit 1; }
 result(){ printf 'RESULT %s files=%s bytes=%s output_limit=%s\n' "$1" "${#files[@]}" "$readbytes" "$maxlines"; }
+process_sample(){
+  local marker="$1" limit="$2" observer="${3:-$BASHPID}"
+  ps -eo pid,ppid,pcpu,pmem,etime,args | awk -v marker="$marker" -v limit="$limit" -v observer="$observer" '
+    function below(pid, ancestor, depth) {
+      while(pid>1 && depth++<128) {
+        if(pid==ancestor)return 1
+        pid=parents[pid]
+      }
+      return 0
+    }
+    NR>1 {ids[++count]=$1; parents[$1]=$2; rows[$1]=$0}
+    END {
+      for(i=1;i<=count && emitted<limit;i++) {
+        pid=ids[i]
+        if(index(rows[pid],marker) && !below(pid,observer) && !below(observer,pid)) {
+          row=rows[pid]; sub(/^[[:space:]]*[0-9]+[[:space:]]+[0-9]+[[:space:]]*/,"",row)
+          print pid,row; emitted++
+        }
+      }
+    }'
+}
 printf 'SAMPLE time=%s timezone=%s host=%s\n' "$(date '+%Y-%m-%dT%H:%M:%S%z')" "$(date '+%Z')" "$(hostname)"
 [[ "$count" =~ ^[0-9]+$ && "$context" =~ ^[0-9]+$ && "$budget" =~ ^[0-9]+$ && "$maxfiles" =~ ^[0-9]+$ && "$maxlines" =~ ^[0-9]+$ ]] || fail INVALID_BUDGET
 [ "$count" -ge 1 ] && [ "$count" -le 10000 ] && [ "$context" -le 100 ] && [ "$budget" -ge 1 ] && [ "$budget" -le 268435456 ] && [ "$maxfiles" -ge 1 ] && [ "$maxfiles" -le 100 ] && [ "$maxlines" -ge 1 ] && [ "$maxlines" -le 10000 ] || fail INVALID_BUDGET
@@ -12,7 +33,7 @@ if [ -n "$pattern" ] && [ "$action" != trace ]; then
   [ "$regex_rc" -lt 2 ] || fail INVALID_PATTERN
 fi
 case "$action" in
-  status) output=$(ps -eo pid,pcpu,pmem,etime,args | grep -F -- "$service" | grep -v 'grep -F' | head -n "$count" || true); [ -z "$output" ] || printf '%s\n' "$output"; [ -z "$output" ] && echo 'RESULT NO_MATCH observation=process' || echo 'RESULT OK observation=process'; exit 0;;
+  status) output=$(process_sample "$service" "$count") || fail PROCESS_QUERY_FAILED; [ -z "$output" ] || printf '%s\n' "$output"; [ -z "$output" ] && echo 'RESULT NO_MATCH observation=process' || echo 'RESULT OK observation=process'; exit 0;;
   ps) ps -eo pid,pcpu,pmem,etime,args | awk 'NR==1 || /[j]ava/' | head -n "$maxlines"; printf 'RESULT OK\n'; exit 0;;
   disk) df -h; printf 'RESULT OK\n'; exit 0;;
   mem) free -m; printf 'RESULT OK\n'; exit 0;;
@@ -60,7 +81,7 @@ filter(){
 }
 for file in "${files[@]}"; do stat -c 'FILE %n size=%s modified=%y' "$file" || fail STAT_FAILED; done
 if [ "$action" = health ]; then
-  ps -eo pid,pcpu,pmem,etime,args | grep -F -- "$service" | grep -v 'grep -F' | head -n 10 || true
+  process_sample "$service" 10 || fail PROCESS_QUERY_FAILED
   pattern='ERROR|WARN|Exception|Caused by:'
 fi
 matched=0

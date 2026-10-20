@@ -19,7 +19,17 @@ printf new > "$work/package/index.html"; printf '%s\n' "$release" > "$work/packa
 tar -czf "$work/upload.tar.gz" -C "$work/package" .
 sha=$(sha256sum "$work/upload.tar.gz" | awk '{print $1}')
 target="$work/live"
-if [[ "${OSTYPE:-}" = msys* ]]; then export MSYS=winsymlinks:lnk; target="$work/live.lnk"; echo 'NOTE: MSYS shortcut link simulation; Linux rename semantics require live verification'; fi
+if [[ "${OSTYPE:-}" = msys* ]]; then
+  export MSYS=winsymlinks:nativestrict
+  if ln -s "$work/package" "$work/link-probe" 2>/dev/null && [ -L "$work/link-probe" ]; then
+    rm -f "$work/link-probe"
+  else
+    rm -f "$work/link-probe"
+    export MSYS=winsymlinks:lnk
+    target="$work/live.lnk"
+    echo 'NOTE: MSYS shortcut simulation; native Linux switching is checked separately'
+  fi
+fi
 remote preflight frontend "$target" dist "$release" "$sha" "$work/upload.tar.gz" none http://localhost "$token"
 remote acquire frontend "$target" dist "$release" "$sha" '' none '' "$token"
 if remote acquire frontend "$target" dist "$release" "$sha" '' none '' another >"$work/out" 2>&1; then fail 'concurrent lock accepted'; fi
