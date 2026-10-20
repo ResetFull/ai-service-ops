@@ -1,0 +1,15 @@
+# 用户资产与认证边界
+
+本公开项目不提供真实服务资产。配置位于用户目录，由 config init 生成空模板；详见 [配置说明](../../../docs/configuration.md)。
+
+确认区域、环境、服务和节点后，再读取该用户明确配置的清单。不得从文档、服务编号、源码模块或其他用户环境猜测目标地址。空字段、缺失凭证或认证失败时停止，不换节点或循环尝试身份。
+
+分组为 domestic/overseas 与 dev/test/prod 的组合；旧 dev/test/prod 指 domestic。两个生产分组全部只读。区域名称是组织标签，不代表服务器地理位置。
+
+配置目录由 SERVICE_OPS_CONFIG_DIR 或用户配置目录解析；settings.json 控制非生产写入与可查询目录。生产保护、主机账号权限和实际配置分别核对。
+
+认证只保存密钥路径或 password:PROFILE 引用。整个 .ssh 目录留在仓库外；私钥、公钥清单、SSH config、密码、DPAPI 文件、known_hosts 和真实清单不得加入项目、公开报告或模型上下文。Windows 凭证保存于 LOCALAPPDATA/ai-service-ops/credentials；Bash 不读取 DPAPI。
+
+使用最小权限账号，保留严格主机指纹校验。任务凭据引用和本地回执不能替代操作授权。
+
+日志参数表示日志的墙上时间；确认主机时区、日志格式与轮转范围。压缩、缺失、预算外文件明确记为未覆盖。

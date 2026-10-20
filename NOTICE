@@ -1,0 +1,7 @@
+AI Service Ops
+Copyright 2026 ResetFull and contributors
+
+Licensed under the Apache License, Version 2.0.
+This distribution includes no vendored third-party runtime dependencies.
+Python, PowerShell, OpenSSH, Bash and build tools are installed separately
+under their respective licenses.

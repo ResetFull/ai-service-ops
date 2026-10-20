@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "ai-service-ops",
+  "version": "0.1.0-alpha.1",
+  "description": "Evidence-driven SSH operations for AI agents: bounded diagnostics, guarded execution, task receipts and read-only production access.",
+  "author": {"name": "ResetFull", "url": "https://github.com/ResetFull"},
+  "license": "Apache-2.0",
+  "repository": "https://github.com/ResetFull/ai-service-ops",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "AI Service Ops",
+        "shortDescription": "Guarded SSH operations",
+        "longDescription": "Collect bounded SSH evidence, preserve task receipts and reconcile uncertain writes. Read-only by default; production remains read-only.",
+        "developerName": "ResetFull",
+        "category": "Developer Tools",
+        "capabilities": ["Interactive", "Write"],
+        "defaultPrompt": [
+          "巡检 prod 核心服务，汇总进程、日志异常和主机资源。",
+          "根据 traceId 追踪调用链并定位首个异常服务。",
+          "预检、发布并验证指定 test 服务。"
+        ]
+      }
+    }
+  }
+}

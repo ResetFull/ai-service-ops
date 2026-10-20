@@ -1,0 +1,4 @@
+interface:
+  display_name: "诊断服务与主机"
+  short_description: "按国内/海外与开发/测试/生产分组，只读查询服务与主机"
+  default_prompt: "Use $diagnose-services to diagnose the requested domestic/overseas dev/test/prod group with read-only evidence."

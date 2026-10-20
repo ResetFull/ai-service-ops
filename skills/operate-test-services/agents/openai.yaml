@@ -1,0 +1,4 @@
+interface:
+  display_name: "操作测试服务"
+  short_description: "执行已授权的国内/海外测试发布或开发/测试指定命令，生产只读"
+  default_prompt: "Use $operate-test-services for authorized domestic/overseas test releases or explicit dev/test commands; all production groups are read-only."

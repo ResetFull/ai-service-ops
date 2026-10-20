@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "write_enabled": false,
+  "trace_services": [],
+  "backup_log_dir": "",
+  "nginx_log_dir": "/var/log/nginx",
+  "storage_roots": [],
+  "maven_profile": "test",
+  "run_build_tests": true,
+  "frontend_build_script": "build:test"
+}

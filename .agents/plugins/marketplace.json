@@ -1,0 +1,11 @@
+{
+  "name": "ai-service-ops",
+  "plugins": [
+    {
+      "name": "ai-service-ops",
+      "source": {"source": "local", "path": "."},
+      "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+      "category": "Developer Tools"
+    }
+  ]
+}
