@@ -1,6 +1,6 @@
 ---
 name: diagnose-services
-description: '按国内/海外及开发/测试/生产分组，只读诊断远端服务、日志、traceId、JVM、Nginx 与主机资源；支持私钥和密码配置档。生产全部只读，本机维护不适用。'
+description: '只读诊断远端服务、日志、traceId、JVM、Nginx 与主机资源，输出有界证据和未覆盖范围；支持 SSH 私钥及密码凭证引用。本机维护不适用。'
 ---
 
 # Diagnose Services

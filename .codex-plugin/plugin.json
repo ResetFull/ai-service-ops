@@ -1,14 +1,14 @@
 {
   "name": "ai-service-ops",
   "version": "0.1.0-alpha.1",
-  "description": "Evidence-driven SSH operations with guarded execution, task receipts and read-only production access.",
+  "description": "AI-assisted SSH operations: bounded diagnostics, guarded test releases, verification, rollback and persistent task receipts. Production remains read-only.",
   "author": {"name": "ResetFull", "url": "https://github.com/ResetFull"},
   "license": "Apache-2.0",
   "skills": "./skills/",
   "interface": {
     "displayName": "AI Service Ops",
-    "shortDescription": "Guarded SSH operations",
-    "longDescription": "Collect bounded SSH evidence, preserve task receipts and reconcile uncertain writes. Read-only by default; production remains read-only.",
+    "shortDescription": "SSH 诊断与受控发布",
+    "longDescription": "面向 AI Agent 的 SSH 运维工具，提供只读诊断、日志追踪、受控发布、版本验证与回滚，并保留任务回执。生产环境始终只读。",
     "developerName": "ResetFull",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Write"],

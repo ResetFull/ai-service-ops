@@ -997,8 +997,8 @@ service 诊断:
 示例:
   pwsh service-ops.ps1 prod example-core-server logs 20
   pwsh service-ops.ps1 prod example-biz-server grepall "Exception"
-  pwsh service-ops.ps1 prod trace "cdea832f6c5e477b"
-  pwsh service-ops.ps1 prod prod06 net
+  pwsh service-ops.ps1 prod trace "demo-trace-001"
+  pwsh service-ops.ps1 prod demo-node net
   pwsh service-ops.ps1 test example-biz-server all
   pwsh service-ops.ps1 test demo-web plan
   pwsh service-ops.ps1 test example-biz-server logs 200
