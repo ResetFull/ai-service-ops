@@ -1,5 +1,5 @@
 #requires -Version 7
-# service-ops.ps1 — 多环境服务运维工具 (生产只读 / 测试受控变更)
+# AI Service Ops — SSH 诊断、受控发布与版本验证
 # 用法: pwsh service-ops.ps1 <domestic|overseas>-<dev|test|prod> <target> <action> [args]
 # 生产全部只读；开发/测试按当前任务授权执行受控变更。
 
@@ -957,16 +957,19 @@ function Do-All-PS($envName) { Invoke-AllServerQuery $envName ps }
 # ====== Usage ======
 function Show-Usage {
     @'
-service-ops.ps1 — 多环境服务运维工具
-用法: pwsh service-ops.ps1 <domestic|overseas>-<dev|test|prod> <target> <action> [args]
-兼容 dev/test/prod，均指国内。所有生产分组只读；开发/测试操作须有当前任务授权。
+AI Service Ops — SSH 诊断与受控发布
+用法: pwsh service-ops.ps1 <scope> <target> <action> [args]
+使用 <scope> groups 查看内置清单与策略。生产始终只读，测试写入须显式开启并有任务授权。
+配置: config init | config validate [--dir <directory>]
+回执: task [--timeout <seconds>] [--request-id <id>] run <scope> <target> <action>
+演示: demo（合成证据，无需 SSH 凭证）
 
 通用 service 级:
   status [server]                 查服务进程
   logs [N] [server] [date]        最近 N 行日志 (默认100)
   grep <pat> [N] [server] [date] [ctx]  搜日志 (默认200条, ctx=上下文行)
   grepall <pat> [N] [date] [ctx]  搜日志(所有服务器)
-  backupgrep <pat> [date] [server] [ctx]  搜历史备份(prod共享盘)
+  backupgrep <pat> [date] [server] [ctx]  查询配置的备份日志目录
   logsrange <start> <end> [pat] [server] [date]  按时间范围搜
   count <pat> [server] [date]     统计关键词匹配行数（预算内）
   logfiles [server] [date]        列日志文件
@@ -979,7 +982,7 @@ service-ops.ps1 — 多环境服务运维工具
 
 test 独有 (发版):
   plan                            展示发版目标并检查本地条件
-  build                           后端 Maven 构建 / 前端 pnpm build:test
+  build                           后端 Maven / 前端 npm 或固定版本 pnpm；构建参数由配置指定
   upload                          上传记录的构建快照；前端入口为软链接
   restart                         后端远程重启；静态前端无需重启
   verify                          核验记录的远端版本与配置就绪 URL
@@ -987,7 +990,7 @@ test 独有 (发版):
   rollback <releaseId>            恢复指定历史版本并验证（需明确授权）
   all                             build→upload→restart(按类型)→verify
 
-server 级（以对应分组清单为准）:
+server 级（以所选环境清单为准）:
   ps | disk | mem | top | services | net | nginx-config | image-layout | jvm [filter]
   exec <cmd>                      仅开发/测试，须明确授权目标和命令
 

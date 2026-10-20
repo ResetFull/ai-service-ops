@@ -343,7 +343,17 @@ doctor(){
   fi
   echo "RESULT OK doctor=$mode env=$ENV_NAME"
 }
-usage(){ echo 'service-ops.sh <domestic|overseas>-<dev|test|prod> <target> <action> [args]; legacy dev/test/prod = domestic; production is read-only'; }
+usage(){
+  cat <<'HELP'
+AI Service Ops: SSH diagnostics and controlled test releases.
+Usage: service-ops.sh <scope> <target> <action> [args]
+Inventory and policy: <scope> groups
+Configuration: config init | config validate [--dir <directory>]
+Receipts: task [--timeout <seconds>] [--request-id <id>] run <scope> <target> <action>
+Offline demonstration: demo
+Production is read-only; test writes require explicit local policy and task authorization.
+HELP
+}
 init_python
 case "${1:-}" in
   config) shift; exec "$SERVICE_OPS_PYTHON" "$PLUGIN_ROOT/scripts/ops_config.py" "$@";;

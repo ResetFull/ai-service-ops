@@ -1,4 +1,4 @@
 interface:
-  display_name: "诊断服务与主机"
+  display_name: "服务诊断与证据采集"
   short_description: "只读诊断、日志追踪与证据采集"
   default_prompt: "Use $diagnose-services to collect bounded read-only evidence for services, logs and host resources in the requested environment."

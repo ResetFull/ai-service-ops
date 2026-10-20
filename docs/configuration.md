@@ -17,8 +17,16 @@ The public package has no live config directory. examples/config contains
 empty templates; it does not connect anywhere.
 
 Configuration schema version 1 uses the existing pipe-separated inventory.
-Groups are dev/test/prod and overseas-dev/test/prod; domestic-* aliases are
-accepted. Regions are organizational labels, not inferred geography.
+Select the inventory with a scope name:
+
+| Inventory namespace | Development | Test | Production |
+|---|---|---|---|
+| Default | dev | test | prod |
+| Secondary | overseas-dev | overseas-test | overseas-prod |
+
+domestic-dev, domestic-test and domestic-prod are compatibility aliases for the
+default inventory. These built-in labels select inventories; they do not infer
+server geography or provide a geographic routing policy.
 Arbitrary group names are deferred to a future schema version.
 
 Server fields:

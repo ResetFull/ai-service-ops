@@ -16,9 +16,9 @@
         "category": "Developer Tools",
         "capabilities": ["Interactive", "Write"],
         "defaultPrompt": [
-          "巡检 prod 核心服务，汇总进程、日志异常和主机资源。",
-          "根据 traceId 追踪调用链并定位首个异常服务。",
-          "预检、发布并验证指定 test 服务。"
+          "以只读方式检查指定服务的进程、日志和主机资源，说明证据覆盖范围。",
+          "按 traceId 汇总相关服务日志，区分已验证事实与缺失证据。",
+          "为指定测试服务执行预检、受控发布和版本验证。"
         ]
       }
     }

@@ -2,7 +2,7 @@
 
 以下 `service-ops` 指已解析为绝对路径的 PowerShell/Bash 入口。自动发布链路限测试分组；开发只承接明确指定的节点命令，生产全部只读。
 
-本页 `test` 命令适用于 `domestic-test`、`overseas-test`，分别读取对应清单；旧 `test` 仅指国内。开发分组只承接明确授权的节点 `exec`，不自动套用测试构建。两个生产分组全部只读；已登记的生产地址不能通过复制到开发/测试清单绕过保护。
+本页以 `test` 为命令示例；其他测试清单使用其对应的完整环境名，命名规则见 [配置说明](../../../docs/configuration.md)。开发环境只承接明确授权的节点 `exec`，不自动套用测试构建。生产环境全部只读；复制已登记的生产地址到其他清单也不能绕过写入保护。
 
 ## 动作与授权
 
@@ -36,7 +36,7 @@
 
 `SERVICE_OPS_STATE_DIR` 可指定本机状态目录，默认使用用户数据目录，不向业务仓库写发布状态。记录和快照按服务/releaseId 保存；跨 PowerShell/Bash 共享记录或并行构建时，必须显式使用同一状态目录，以共享本地构建锁。
 
-国内测试继续使用 `test/<service>`，海外测试使用 `overseas-test/<service>`；manifest 环境必须与分组一致，不混用 current 或历史快照。
+默认测试清单使用 `test/<service>`，另一组测试清单使用 `overseas-test/<service>`；manifest 环境必须与分组一致，不混用 current 或历史快照。
 
 manifest 使用 UTF-8/LF TSV，每行 `key<TAB>value`，保存环境、服务、类型、源码绝对路径、分支/SHA、dirty 状态、source_fingerprint、构建 profile、releaseId、产物 SHA-256、目标节点和时间。source_fingerprint 覆盖 Git 状态、已跟踪文件差异和未忽略的未跟踪文件哈希；构建前后必须一致，不能把构建期间变化的源码记为已验证版本。
 

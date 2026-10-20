@@ -5,12 +5,12 @@ description: '在明确授权的测试环境构建、发布、重启、验证或
 
 # Operate Test Services
 
-操作已配置的测试服务，确保源码、构建产物、发布目标和验证结果可以对应。prod 变更走正式生产运维流程。
+发布和恢复已配置的测试服务，核对源码、构建产物、目标节点和运行版本。生产环境仅提供只读诊断。
 
 公开版默认只读。非生产写操作还需用户在外部 settings.json 中显式设置 write_enabled=true；
 该设置不扩大当前任务授权。不要通过改配置、改请求标识或旧入口绕过禁用策略。
 
-完整分组为 `domestic-test` 或 `overseas-test`；旧 `test` 兼容国内。`domestic-dev`、`overseas-dev` 仅承接明确指定节点与命令，不复用测试构建 profile 自动发布。两个生产分组不承接写操作。先核对 [资产与认证](../diagnose-services/references/topology.md)，缺地址/认证/发布配置时停止，不借国内同名节点替代海外节点。
+自动发布仅用于已配置的测试环境。开发环境只承接明确授权的节点命令；生产环境全部只读。先核对 [资产与认证](../diagnose-services/references/topology.md)，缺地址、认证或发布条件时停止，不借用其他环境中的同名目标。内置分组和兼容别名见 [配置说明](../../docs/configuration.md)。
 
 ## 入口与授权
 

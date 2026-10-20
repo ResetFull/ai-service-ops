@@ -2,7 +2,7 @@
 
 以下 `service-ops` 指已解析为绝对路径的 PowerShell/Bash 入口。服务、节点和日志配置见 [topology.md](topology.md)。
 
-`<env>` 为完整分组，例如 `domestic-prod`、`overseas-test`；旧 `dev/test/prod` 兼容国内分组。`<env> groups` 展示六个分组与策略。`servers` 包含待补资产，不代表全部已通过连接验证。
+`<env>` 选择已配置的环境清单，内置名称与兼容别名见 [配置说明](../../../docs/configuration.md)。`<env> groups` 展示可选环境和策略。`servers` 包含待补资产，不代表全部已通过连接验证。
 
 ## 选择查询
 
@@ -15,11 +15,11 @@
 | `<env> <service> logs [N] [server] [date]` | 每个候选文件末尾 N 行，默认 100；总输出受预算限制 |
 | `<env> <service> grep <pattern> [N] [server] [date] [ctx]` | 单节点关键词查询，每文件最多 N 行，默认 200；总输出受预算限制 |
 | `<env> <service> grepall <pattern> [N] [date] [ctx]` | 服务部署节点关键词查询 |
-| `prod <service> backupgrep <pattern> [date] [server] [ctx]` | 生产备份日志查询 |
+| `<env> <service> backupgrep <pattern> [date] [server] [ctx]` | 查询显式配置的备份日志目录 |
 | `<env> <service> logsrange <start> <end> [pattern] [server] [date]` | 按墙上时间查询相关日志；检查跨日与轮转文件覆盖 |
 | `<env> <service> count <pattern> [server] [date]` | 预算内关键词匹配行数；截断时不称总数 |
 | `<env> <service> logfiles [server] [date]` | 实际候选日志文件 |
-| `<env> trace <traceId> [services] [server]` | 指定逗号分隔服务或默认核心服务，覆盖已配置部署节点 |
+| `<env> trace <traceId> [services] [server]` | 指定逗号分隔服务或 settings.json 的 trace_services，覆盖已配置部署节点 |
 | `<env> nginx-stats <server> [date] [domain]` | 预算内状态码及 URL 统计 |
 | `<env> <server> ps / jvm [filter] / disk / mem / top / services / net` | 主机和 JVM 观察 |
 | `<env> <server> nginx-config` | 固定 Nginx 配置目录中提取域名、路径、上游和 CORS，查看固定路径的目录/挂载元数据；不执行 nginx -t/-T，不读取密钥或图片，不证明配置已经加载 |

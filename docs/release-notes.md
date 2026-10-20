@@ -2,8 +2,8 @@
 
 First public Alpha under Apache-2.0.
 
-AI-assisted SSH diagnostics and guarded releases through PowerShell/Bash and
-Codex skills:
+SSH diagnostics and controlled releases for AI agents and developers, using
+PowerShell/Bash executors and Codex skills:
 
 - External inventory and credentials; no live assets or SSH directory included.
 - Read-only defaults, production guards and explicit test-write policy.

@@ -1,8 +1,8 @@
 # AI Service Ops
 
-面向 AI Agent 与开发者的 SSH 运维工具集：执行有边界、诊断有证据、结果可追溯。
+面向 AI Agent 与开发者的 SSH 运维工具，提供只读诊断、日志追踪、受控测试发布、版本验证与回滚，并保留任务回执。
 
-首个公开 Alpha 保留 PowerShell/Bash 执行器，提供 Codex 技能适配。
+首个公开 Alpha 采用 PowerShell/Bash 执行器，提供 Codex 技能适配。
 宿主 Agent 负责推理，脚本负责采证、策略、锁和发布验证。
 
 ## 不接服务器也能体验

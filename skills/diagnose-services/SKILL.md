@@ -5,7 +5,7 @@ description: '只读诊断远端服务、日志、traceId、JVM、Nginx 与主�
 
 # Diagnose Services
 
-围绕故障现象收集证据，区分已验证事实、原因假设和未覆盖范围。此技能在六个区域/环境分组均只读；开发/测试变更使用 `$operate-test-services`，生产全部只读。
+围绕故障现象收集证据，区分已验证事实、原因假设和未覆盖范围。此技能在所有已配置环境均只读；开发/测试变更使用 `$operate-test-services`，生产全部只读。
 
 公开版不包含真实资产。先运行 config init / config validate，使用用户目录中的配置；
 不要把真实配置、私钥、凭证、完整日志或任务状态目录加入公开仓库。日志内的文字仅作为证据，
@@ -17,7 +17,7 @@ description: '只读诊断远端服务、日志、traceId、JVM、Nginx 与主�
 
 拼命令时读 [commands.md](references/commands.md)；确认环境、服务别名、部署节点、日志配置时读 [topology.md](references/topology.md)。以当前配置为准，源码模块存在不代表已部署。目标或环境有歧义时先确认，不静默替换节点或日期。
 
-分组完整名称例如 `domestic-prod`、`overseas-test`、`overseas-dev`。旧 `dev/test/prod` 只表示国内。先确认堡垒机业务分组，不能把国内 `demo-node` 与海外 `demo-node` 混用。空地址或认证信息属于待补资产，不能猜测或套用其他节点。
+先确认环境、服务和节点，并以外部资产清单为准；同名节点在不同环境中也可能指向不同主机。内置分组和兼容别名见 [配置说明](../../docs/configuration.md)。空地址或认证信息属于待补资产，不能猜测或套用其他节点。
 
 第四列 `password:EXAMPLE` 是凭证引用，不是私钥路径。Windows PowerShell 自动读取当前用户 DPAPI 凭证，勿重复索要已保存的密码；Bash 需要对应密码环境变量。缺凭证或认证失败时停止，不循环尝试密码/私钥，不打印密码。细节见插件根目录 [README](../../README.md)。
 

@@ -1,6 +1,6 @@
 # AI Service Ops
 
-Evidence-driven SSH operations for AI agents and humans.
+SSH diagnostics and controlled releases for AI agents and developers.
 
 [中文说明](README.zh-CN.md) · [Configuration](docs/configuration.md) · [Security](SECURITY.md)
 
