@@ -120,6 +120,8 @@ CI checks Windows and Linux controllers. Regression fixtures exercise SSH/SCP
 failures, process identity, frontend switching, redaction, policy and receipts.
 These checks do not certify your own deployment scripts, server permissions,
 production environment, or business end-to-end behavior.
+The initial release also underwent [isolated live validation](docs/validation.md);
+private inventories and raw receipts are excluded.
 
 There is no MCP server, multi-user authorization service, automatic remediation,
 Kubernetes controller, or multi-node deployment in this release.

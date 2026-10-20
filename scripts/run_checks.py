@@ -10,6 +10,7 @@ import tempfile
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
+LINUX_REMOTE_SUITES = {"bash-behavior-regression.sh"}
 
 
 def engines():
@@ -67,6 +68,10 @@ def main():
         results.append({"suite": "manifests", "status": "FAIL"})
     runtimes = engines()
     for path in sorted((ROOT / "tests").glob("*-regression.*")):
+        if os.name == "nt" and path.name in LINUX_REMOTE_SUITES:
+            print(f"NOT_APPLICABLE: {path.name} (GNU/Linux remote filesystem; covered by Linux CI)", flush=True)
+            results.append({"suite": path.name, "status": "NOT_APPLICABLE", "reason": "GNU_LINUX_REMOTE_REQUIRED"})
+            continue
         prefix = runtimes.get(path.suffix)
         if not prefix:
             status = "FAIL" if arguments.require_native else "SKIP"
@@ -82,7 +87,8 @@ def main():
     (destination / "checks.json").write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
     failed = sum(item["status"] == "FAIL" for item in results)
     skipped = sum(item["status"] == "SKIP" for item in results)
-    print(f"Checks: {len(results) - failed - skipped} passed, {failed} failed, {skipped} skipped")
+    inapplicable = sum(item["status"] == "NOT_APPLICABLE" for item in results)
+    print(f"Checks: {len(results) - failed - skipped - inapplicable} passed, {failed} failed, {skipped} skipped, {inapplicable} not applicable")
     return int(bool(failed))
 
 

@@ -63,6 +63,7 @@ python scripts/package_release.py
 ```
 
 测试只使用隔离临时目录和模拟 SSH，不需要维护者服务器。
+首版另以授权测试节点完成 [真实链路回归](docs/validation.md)，私有资产与原始回执不公开。
 仓库和发布包都必须通过隐私扫描。详见 [贡献指南](CONTRIBUTING.md)、
 [安全说明](SECURITY.md) 和 [执行契约](docs/architecture.md)。
 
